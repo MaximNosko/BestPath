@@ -1,4 +1,9 @@
 var nuli=false;
+function getMousePosition(canvas, evt)
+{
+    var rect = canvas.getBoundingClientRect();
+    return {x: evt.clientX - rect.left,y: evt.clientY - rect.top};
+}
 function krug(context,x,y,color,fon)
 {
     context.beginPath();
@@ -314,4 +319,156 @@ function m2(tm)
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
     marshrut(context,tm);
+}
+document.getElementById("knopka_delete").onclick=function()
+{
+    var canvas = document.getElementById("canvas");
+    canvas.onclick=function(e)
+    {
+        var canvas = document.getElementById("canvas");
+        var t=getMousePosition(canvas,e);
+        for(var i in m)
+        {
+            if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+            {
+                for(var i2 in m)
+                {
+                    for(var i3 in m[i2].puti)
+                    {
+                        if(i===i3)
+                        {
+                            delete m[i2].puti[i3];
+                        }
+                    }
+                }
+                delete m[i];
+            }
+        }
+        poehali(Object.keys(m)[0],Infinity);
+        perebor();
+        canvas.onclick=null;
+    }
+}
+document.getElementById("knopka_delete_svyaz").onclick=function()
+{
+    var canvas = document.getElementById("canvas");
+    canvas.onclick=function(e)
+    {
+        var canvas = document.getElementById("canvas");
+        var t=getMousePosition(canvas,e); 
+        canvas.otkuda=null;
+        for(var i in m)
+        {
+            if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+            {
+                canvas.otkuda=i;
+            }
+        }
+        if(canvas.otkuda!==null)
+        {
+            canvas.onclick=function(e)
+            {
+                var canvas = document.getElementById("canvas");
+                var t=getMousePosition(canvas,e);
+                for(var i in m)
+                {
+                    if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+                    {
+                        delete m[canvas.otkuda].puti[i];
+                    }
+                }
+                poehali(Object.keys(m)[0],Infinity);
+                perebor();
+                canvas.onclick=null;
+            }
+        }
+        else
+        {
+            canvas.onclick=null;
+        }
+    }
+}
+document.getElementById("knopka_add").onclick=function()
+{
+    var canvas = document.getElementById("canvas");
+    canvas.onclick=function(e)
+    {
+        var canvas = document.getElementById("canvas");
+        var t=getMousePosition(canvas,e);
+        var svob=true;
+        for(var i in m)
+        {
+            if((Math.abs(m[i].x-t.x)<=70)&&(Math.abs(m[i].y-t.y)<=70))
+            {
+                svob=false;
+            }
+        }
+        if(svob)
+        {
+            var nazv="0";
+            while(m[nazv]!==undefined)
+            {
+                nazv=(nazv*1+1)+"";
+            }
+            var user=prompt("Введите название вершины",nazv);
+            if(user==="")
+            {
+                user=nazv;
+            }
+            if(m[user]!==undefined)
+            {
+                user=nazv;
+            }
+            m[user]={"x":t.x,"y":t.y,"puti":[],"dlina":Infinity,"obr":false,"best":null,"start":false};
+        }
+        poehali(Object.keys(m)[0],Infinity);
+        perebor();
+        canvas.onclick=null;
+    }
+}
+document.getElementById("knopka_add_svyaz").onclick=function()
+{
+    var canvas = document.getElementById("canvas");
+    canvas.onclick=function(e)
+    {
+        var canvas = document.getElementById("canvas");
+        var t=getMousePosition(canvas,e); 
+        canvas.otkuda=null;
+        for(var i in m)
+        {
+            if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+            {
+                canvas.otkuda=i;
+            }
+        }
+        if(canvas.otkuda!==null)
+        {
+            canvas.onclick=function(e)
+            {
+                var canvas = document.getElementById("canvas");
+                var t=getMousePosition(canvas,e);
+                for(var i in m)
+                {
+                    if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+                    {
+                        //delete m[canvas.otkuda].puti[i];
+                        var user=prompt("Введите длину пути",1)*1;
+                        if(user===NaN)
+                        {
+                            user=1;
+                            //добавить выход из-за ошибки
+                        }
+                        m[canvas.otkuda].puti[i]=user;
+                    }
+                }
+                poehali(Object.keys(m)[0],Infinity);
+                perebor();
+                canvas.onclick=null;
+            }
+        }
+        else
+        {
+            canvas.onclick=null;
+        }
+    }
 }
