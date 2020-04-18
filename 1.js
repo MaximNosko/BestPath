@@ -140,7 +140,7 @@ function marshrut(context,a)
 }
 function otrisovka(context,m)
 {
-    context.clearRect(0, 0, 700, 700);
+    context.clearRect(0, 0, 1200, 700);
     for(var i in m)
     {
         vershina(context,m[i],i);
@@ -537,5 +537,53 @@ document.getElementById("knopka_rename").onclick=function()
         perebor();
         canvas.onclick=null;
         changeSost();
+    }
+}
+document.getElementById("knopka_move").onclick=function()
+{
+    var canvas = document.getElementById("canvas");
+    changeSost("Выберите вершину для перемещения");
+    canvas.onclick=function(e)
+    {
+        var canvas = document.getElementById("canvas");
+        var t=getMousePosition(canvas,e);
+        var usp=false;
+        for(var i in m)
+        {
+            
+            if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+            {
+                usp=true;
+                changeSost("Перемещение верщины \""+i+"\". Выберите свободное место");
+                canvas.v=i;
+                canvas.onclick=function(e)
+                {
+                    var canvas = document.getElementById("canvas");
+                    var t=getMousePosition(canvas,e);
+                    var svob=true;
+                    for(var i in m)
+                    {
+                        if((Math.abs(m[i].x-t.x)<=70)&&(Math.abs(m[i].y-t.y)<=70))
+                        {
+                            svob=false;
+                        }
+                    }
+                    if(svob)
+                    {
+                        m[canvas.v].x=t.x;
+                        m[canvas.v].y=t.y;
+                    }
+                    poehali(Object.keys(m)[0],Infinity);
+                    perebor();
+                    canvas.onclick=null;
+                    changeSost();
+                }
+            }
+        }
+        if(!usp)
+        {
+            canvas.onclick=null;
+            changeSost();
+        }
     }
 }
