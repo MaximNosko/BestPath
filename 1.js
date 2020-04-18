@@ -490,3 +490,9 @@ document.getElementById("knopka_add_svyaz").onclick=function()
         }
     }
 }
+document.getElementById("knopka_otmena").onclick=function()
+{
+    var canvas = document.getElementById("canvas");
+    changeSost();
+    canvas.onclick=null;
+}
