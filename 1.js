@@ -467,7 +467,12 @@ document.getElementById("knopka_add_svyaz").onclick=function()
                 {
                     if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
                     {
-                        var user=prompt("Введите длину пути",1);
+                        var pred=1;
+                        if(m[canvas.otkuda].puti[i]!==undefined)
+                        {
+                            pred=m[canvas.otkuda].puti[i];
+                        }
+                        var user=prompt("Введите длину пути",pred);
                         if((user*1)>=0)
                         {
                             if(user!==null)
@@ -495,4 +500,42 @@ document.getElementById("knopka_otmena").onclick=function()
     var canvas = document.getElementById("canvas");
     changeSost();
     canvas.onclick=null;
+}
+document.getElementById("knopka_rename").onclick=function()
+{
+    var canvas = document.getElementById("canvas");
+    changeSost("Выберите вершину для переименования");
+    canvas.onclick=function(e)
+    {
+        var canvas = document.getElementById("canvas");
+        var t=getMousePosition(canvas,e);
+        for(var i in m)
+        {
+            if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+            {
+                var name=prompt("Введите новое имя вершины",i);
+                if((name!==null)&&(name.trim()!==""))
+                {
+                    for(var i2 in m)
+                    {
+                        for(var i3 in m[i2].puti)
+                        {
+                            if(i===i3)
+                            {
+                                m[i2].puti[name]=m[i2].puti[i3];
+                                delete m[i2].puti[i3];
+                            }
+                        }
+                    }
+                    m[name]=m[i];
+                    delete m[i];
+                }
+                
+            }
+        }
+        poehali(Object.keys(m)[0],Infinity);
+        perebor();
+        canvas.onclick=null;
+        changeSost();
+    }
 }
