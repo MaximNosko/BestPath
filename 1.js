@@ -1,7 +1,7 @@
 function getMousePosition(canvas, evt)
 {
     var rect = canvas.getBoundingClientRect();
-    return {x: evt.clientX - rect.left,y: evt.clientY - rect.top};
+    return {x: Math.floor(evt.clientX - rect.left),y: Math.floor(evt.clientY - rect.top)};
 }
 function krug(context,x,y,color,fon)
 {
@@ -228,6 +228,10 @@ function poehali(v,t_kvo)
 }
 document.getElementById("knopka").onclick=function()
 {
+    if(document.getElementById("csv").value.trim()==="")
+    {
+        return;
+    }
     var txt=document.getElementById("csv").value.split("\n");
     m={};
     for(var i=0;i<txt.length;i++)
@@ -307,7 +311,11 @@ function perebor()
                 var canvas = document.getElementById("canvas");
                 var context = canvas.getContext("2d");
                 otrisovka(context,m);
-                marshrut(context,this.m[this.n2].best);
+                if(this.value!=="∞")
+                {
+                    marshrut(context,this.m[this.n2].best);
+                }
+                
             }
         }
     }
@@ -585,5 +593,30 @@ document.getElementById("knopka_move").onclick=function()
             canvas.onclick=null;
             changeSost();
         }
+    }
+}
+document.getElementById("knopka_save").onclick=function()
+{
+    var csv=document.getElementById("csv");
+    csv.value="";
+    for(var i in m)
+    {
+        csv.value+="\t"+i;
+    }
+    csv.value+="\tX\tY\n";
+    for(var i in m)
+    {
+        csv.value+=i;
+        for(var i2 in m)
+        {
+            var tr=m[i].puti[i2];
+            if(tr===undefined)
+            {
+                tr="";
+            }
+            csv.value+="\t"+tr;
+        }
+        csv.value+="\t"+m[i].x+"\t"+m[i].y;
+        csv.value+="\n";
     }
 }
