@@ -291,7 +291,6 @@ function perebor()
         for(var i2 in ts.m)
         {
             t.rows[t.rows.length-1].appendChild(document.createElement("td"));
-            //t.rows[t.rows.length-1].cells[t.rows[t.rows.length-1].cells.length-1].innerHTML=ts.m[i2].dlina;
             t.rows[t.rows.length-1].cells[t.rows[t.rows.length-1].cells.length-1].appendChild(document.createElement("input"));
             t.rows[t.rows.length-1].cells[t.rows[t.rows.length-1].cells.length-1].children[0].type="button";
             t.rows[t.rows.length-1].cells[t.rows[t.rows.length-1].cells.length-1].children[0].value=ts.m[i2].dlina;
@@ -319,9 +318,18 @@ function m2(tm)
     var context = canvas.getContext("2d");
     marshrut(context,tm);
 }
+function changeSost(text)
+{
+    if(text===undefined)
+    {
+        text="Обзор";
+    }
+    document.getElementById("sost").innerHTML=text;
+}
 document.getElementById("knopka_delete").onclick=function()
 {
     var canvas = document.getElementById("canvas");
+    changeSost("Выберите вершину для удаления");
     canvas.onclick=function(e)
     {
         var canvas = document.getElementById("canvas");
@@ -346,11 +354,13 @@ document.getElementById("knopka_delete").onclick=function()
         poehali(Object.keys(m)[0],Infinity);
         perebor();
         canvas.onclick=null;
+        changeSost();
     }
 }
 document.getElementById("knopka_delete_svyaz").onclick=function()
 {
     var canvas = document.getElementById("canvas");
+    changeSost("Удаление связи. Выберите первую вершину");
     canvas.onclick=function(e)
     {
         var canvas = document.getElementById("canvas");
@@ -365,6 +375,7 @@ document.getElementById("knopka_delete_svyaz").onclick=function()
         }
         if(canvas.otkuda!==null)
         {
+            changeSost("Удаление связи. Выберите вторую вершину");
             canvas.onclick=function(e)
             {
                 var canvas = document.getElementById("canvas");
@@ -379,17 +390,20 @@ document.getElementById("knopka_delete_svyaz").onclick=function()
                 poehali(Object.keys(m)[0],Infinity);
                 perebor();
                 canvas.onclick=null;
+                changeSost();
             }
         }
         else
         {
             canvas.onclick=null;
+            changeSost();
         }
     }
 }
 document.getElementById("knopka_add").onclick=function()
 {
     var canvas = document.getElementById("canvas");
+    changeSost("Выберите свободную область для создания вершины");
     canvas.onclick=function(e)
     {
         var canvas = document.getElementById("canvas");
@@ -423,11 +437,13 @@ document.getElementById("knopka_add").onclick=function()
         poehali(Object.keys(m)[0],Infinity);
         perebor();
         canvas.onclick=null;
+        changeSost();
     }
 }
 document.getElementById("knopka_add_svyaz").onclick=function()
 {
     var canvas = document.getElementById("canvas");
+    changeSost("Добавление связи. Выберите первую вершину");
     canvas.onclick=function(e)
     {
         var canvas = document.getElementById("canvas");
@@ -442,6 +458,7 @@ document.getElementById("knopka_add_svyaz").onclick=function()
         }
         if(canvas.otkuda!==null)
         {
+            changeSost("Добавление связи. Выберите вторую вершину");
             canvas.onclick=function(e)
             {
                 var canvas = document.getElementById("canvas");
@@ -450,24 +467,26 @@ document.getElementById("knopka_add_svyaz").onclick=function()
                 {
                     if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
                     {
-                        //delete m[canvas.otkuda].puti[i];
-                        var user=prompt("Введите длину пути",1)*1;
-                        if(user===NaN)
+                        var user=prompt("Введите длину пути",1);
+                        if((user*1)>=0)
                         {
-                            user=1;
-                            //добавить выход из-за ошибки
+                            if(user!==null)
+                            {
+                                m[canvas.otkuda].puti[i]=user*1;
+                            }
                         }
-                        m[canvas.otkuda].puti[i]=user;
                     }
                 }
                 poehali(Object.keys(m)[0],Infinity);
                 perebor();
                 canvas.onclick=null;
+                changeSost();
             }
         }
         else
         {
             canvas.onclick=null;
+            changeSost();
         }
     }
 }
