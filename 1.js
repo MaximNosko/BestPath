@@ -554,7 +554,7 @@ document.getElementById("knopka_move").onclick=function()
 {
     var canvas = document.getElementById("canvas");
     changeSost("Выберите вершину для перемещения");
-    canvas.onclick=function(e)
+    canvas.onmousedown=function(e)
     {
         var canvas = document.getElementById("canvas");
         var t=getMousePosition(canvas,e);
@@ -567,10 +567,23 @@ document.getElementById("knopka_move").onclick=function()
                 usp=true;
                 changeSost("Перемещение верщины \""+i+"\". Выберите свободное место");
                 canvas.v=i;
-                canvas.onclick=function(e)
+                canvas.onmouseup=function(e)
                 {
                     var canvas = document.getElementById("canvas");
                     var t=getMousePosition(canvas,e);
+                    /*alert(canvas.v);
+                    for(var i in m)
+                    {
+                        
+                        if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
+                        {
+                            if(i===canvas.v)
+                            {
+                                return;
+                                
+                            }
+                        }
+                    }*/
                     var svob=true;
                     for(var i in m)
                     {
@@ -587,13 +600,16 @@ document.getElementById("knopka_move").onclick=function()
                     poehali(Object.keys(m)[0],Infinity);
                     perebor();
                     canvas.onclick=null;
+                    canvas.onmousedown=null;
+                    canvas.onmouseup=null;
                     changeSost();
                 }
             }
         }
         if(!usp)
         {
-            canvas.onclick=null;
+            canvas.onmousedown=null;
+            canvas.onmouseup=null;
             changeSost();
         }
     }
