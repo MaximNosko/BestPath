@@ -1,4 +1,3 @@
-var nuli=false;
 function getMousePosition(canvas, evt)
 {
     var rect = canvas.getBoundingClientRect();
@@ -249,7 +248,7 @@ document.getElementById("knopka").onclick=function()
         {
             if(m[i].puti[i2]!=="")
             {
-                if((m[i].puti[i2]*1>0)||nuli)
+                if((m[i].puti[i2]*1>0)||(!document.getElementById("nuli_checkbox").checked))
                 {
                     tp[Object.keys(m)[i2]]=m[i].puti[i2]*1;
                 }
