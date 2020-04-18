@@ -222,7 +222,10 @@ function poehali(v,t_kvo)
 {
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
-    var marsh=findAll(v,t_kvo);
+    if(v!==undefined)
+    {
+        var marsh=findAll(v,t_kvo);
+    }
     //console.log(marsh);
     otrisovka(context,m);
 }
@@ -619,4 +622,14 @@ document.getElementById("knopka_save").onclick=function()
         csv.value+="\t"+m[i].x+"\t"+m[i].y;
         csv.value+="\n";
     }
+}
+document.getElementById("knopka_reset").onclick=function()
+{
+    if(!confirm("Граф будет уничтожен"))
+    {
+        return;
+    }
+    m=[];
+    poehali(Object.keys(m)[0],Infinity);
+    perebor();
 }
