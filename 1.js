@@ -649,3 +649,20 @@ document.getElementById("knopka_reset").onclick=function()
     poehali(Object.keys(m)[0],Infinity);
     perebor();
 }
+document.getElementById("knopka_copy").onclick=function()
+{ 
+    document.getElementById("knopka_save").onclick();
+    document.getElementById("csv").select();
+    document.execCommand("copy");
+}
+document.getElementById("knopka_vstavit").onclick=function()
+{ 
+    
+    document.getElementById("csv").select();
+    document.execCommand("paste");
+    if(document.getElementById("csv").value.trim()==="")
+    {
+        navigator.clipboard.readText().then((text) => {document.getElementById("csv").value = text;document.getElementById("knopka").onclick();});
+    }
+    document.getElementById("knopka").onclick();
+}
