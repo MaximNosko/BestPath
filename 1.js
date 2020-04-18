@@ -561,7 +561,6 @@ document.getElementById("knopka_move").onclick=function()
         var usp=false;
         for(var i in m)
         {
-            
             if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
             {
                 usp=true;
@@ -571,25 +570,15 @@ document.getElementById("knopka_move").onclick=function()
                 {
                     var canvas = document.getElementById("canvas");
                     var t=getMousePosition(canvas,e);
-                    /*alert(canvas.v);
-                    for(var i in m)
-                    {
-                        
-                        if((Math.abs(m[i].x-t.x)<=25)&&(Math.abs(m[i].y-t.y)<=25))
-                        {
-                            if(i===canvas.v)
-                            {
-                                return;
-                                
-                            }
-                        }
-                    }*/
                     var svob=true;
                     for(var i in m)
                     {
                         if((Math.abs(m[i].x-t.x)<=70)&&(Math.abs(m[i].y-t.y)<=70))
                         {
-                            svob=false;
+                            if(i!==canvas.v)
+                            {
+                                svob=false;
+                            }
                         }
                     }
                     if(svob)
