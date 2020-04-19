@@ -267,6 +267,7 @@ document.getElementById("knopka").onclick=function()
     console.log(JSON.stringify(m));
     poehali(Object.keys(m)[0],Infinity);
     perebor();
+    action();
 }
 document.getElementById("knopka_poehali").onclick=function()
 {
@@ -364,6 +365,7 @@ document.getElementById("knopka_delete").onclick=function()
         }
         poehali(Object.keys(m)[0],Infinity);
         perebor();
+        action();
         canvas.onclick=null;
         changeSost();
     }
@@ -400,6 +402,7 @@ document.getElementById("knopka_delete_svyaz").onclick=function()
                 }
                 poehali(Object.keys(m)[0],Infinity);
                 perebor();
+                action();
                 canvas.onclick=null;
                 changeSost();
             }
@@ -447,6 +450,7 @@ document.getElementById("knopka_add").onclick=function()
         }
         poehali(Object.keys(m)[0],Infinity);
         perebor();
+        action();
         canvas.onclick=null;
         changeSost();
     }
@@ -495,6 +499,7 @@ document.getElementById("knopka_add_svyaz").onclick=function()
                 }
                 poehali(Object.keys(m)[0],Infinity);
                 perebor();
+                action();
                 canvas.onclick=null;
                 changeSost();
             }
@@ -506,7 +511,7 @@ document.getElementById("knopka_add_svyaz").onclick=function()
         }
     }
 }
-document.getElementById("knopka_otmena").onclick=function()
+document.getElementById("knopka_vyhod").onclick=function()
 {
     var canvas = document.getElementById("canvas");
     changeSost();
@@ -546,6 +551,7 @@ document.getElementById("knopka_rename").onclick=function()
         }
         poehali(Object.keys(m)[0],Infinity);
         perebor();
+        action();
         canvas.onclick=null;
         changeSost();
     }
@@ -588,6 +594,7 @@ document.getElementById("knopka_move").onclick=function()
                     }
                     poehali(Object.keys(m)[0],Infinity);
                     perebor();
+                    action();
                     canvas.onclick=null;
                     canvas.onmousedown=null;
                     canvas.onmouseup=null;
@@ -637,6 +644,7 @@ document.getElementById("knopka_reset").onclick=function()
     m=[];
     poehali(Object.keys(m)[0],Infinity);
     perebor();
+    action();
 }
 document.getElementById("knopka_copy").onclick=function()
 { 
@@ -659,4 +667,30 @@ document.getElementById("knopka_png").onclick=function()
 {
     var okno=window.open()
     okno.document.write("<img src='"+document.getElementById("canvas").toDataURL("image/png")+"' />")
+}
+var istoriya={"do":[],"posle":[]};
+function action()
+{
+    istoriya.do.push(JSON.stringify(m));
+    istoriya.posle=[];
+}
+document.getElementById("knopka_otmena").onclick=function()
+{
+    if(istoriya.do.length>1)
+    {
+        istoriya.posle.push(istoriya.do.pop());
+        m=JSON.parse(istoriya.do[istoriya.do.length-1]);
+        poehali(Object.keys(m)[0],Infinity);
+        perebor();
+    }
+}
+document.getElementById("knopka_vozvrat").onclick=function()
+{
+    if(istoriya.posle.length>0)
+    {
+        istoriya.do.push(istoriya.posle.pop());
+        m=JSON.parse(istoriya.do[istoriya.do.length-1]);
+        poehali(Object.keys(m)[0],Infinity);
+        perebor();
+    }
 }
