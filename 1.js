@@ -655,3 +655,8 @@ document.getElementById("knopka_vstavit").onclick=function()
     }
     document.getElementById("knopka").onclick();
 }
+document.getElementById("knopka_png").onclick=function()
+{
+    var okno=window.open()
+    okno.document.write("<img src='"+document.getElementById("canvas").toDataURL("image/png")+"' />")
+}
