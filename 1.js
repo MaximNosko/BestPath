@@ -551,9 +551,9 @@ document.getElementById("knopka_rename").onclick=function()
         }
         poehali(Object.keys(m)[0],Infinity);
         perebor();
-        action();
         canvas.onclick=null;
         changeSost();
+        action();
     }
 }
 document.getElementById("knopka_move").onclick=function()
